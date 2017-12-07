@@ -242,6 +242,12 @@ public class Archive implements Closeable {
 
 			block.setPositionInFile(position);
 
+			// Fix for https://github.com/edmund-wagner/junrar/issues/41
+			if (block.getHeaderType() == null) {
+				logger.warning("Unknown Header");
+				throw new RarException(RarExceptionType.notRarArchive);
+			}
+
 			switch (block.getHeaderType()) {
 
 			case MarkHeader:
